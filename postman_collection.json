@@ -1,0 +1,127 @@
+{
+  "info": {
+    "name": "Gestion Tâches API",
+    "description": "Collection Postman pour tester l'API de gestion des tâches.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Inscription utilisateur",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nom\": \"Admin\",\n  \"email\": \"admin@mail.com\",\n  \"motDePasse\": \"admin123\",\n  \"role\": \"admin\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/auth/register", "host": [ "{{base_url}}" ], "path": [ "api", "auth", "register" ] }
+      }
+    },
+    {
+      "name": "Connexion utilisateur",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"admin@mail.com\",\n  \"motDePasse\": \"admin123\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/auth/login", "host": [ "{{base_url}}" ], "path": [ "api", "auth", "login" ] }
+      }
+    },
+    {
+      "name": "Lister les membres (admin)",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+        "url": { "raw": "{{base_url}}/api/membres", "host": [ "{{base_url}}" ], "path": [ "api", "membres" ] }
+      }
+    },
+    {
+      "name": "Ajouter un membre (admin)",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nom\": \"Membre\",\n  \"email\": \"membre@mail.com\",\n  \"motDePasse\": \"membre123\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/membres", "host": [ "{{base_url}}" ], "path": [ "api", "membres" ] }
+      }
+    },
+    {
+      "name": "Modifier un membre (admin)",
+      "request": {
+        "method": "PUT",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nom\": \"Membre Modifié\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/membres/{{membreId}}", "host": [ "{{base_url}}" ], "path": [ "api", "membres", "{{membreId}}" ] }
+      }
+    },
+    {
+      "name": "Supprimer un membre (admin)",
+      "request": {
+        "method": "DELETE",
+        "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+        "url": { "raw": "{{base_url}}/api/membres/{{membreId}}", "host": [ "{{base_url}}" ], "path": [ "api", "membres", "{{membreId}}" ] }
+      }
+    },
+    {
+      "name": "Ajouter une tâche",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titre\": \"Tâche 1\",\n  \"description\": \"Description de la tâche\",\n  \"priorite\": \"haute\",\n  \"statut\": \"en_cours\",\n  \"assignees\": [],\n  \"dateDebut\": \"2025-08-13\",\n  \"dateEcheance\": \"2025-08-20\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/taches", "host": [ "{{base_url}}" ], "path": [ "api", "taches" ] }
+      }
+    },
+    {
+      "name": "Modifier une tâche",
+      "request": {
+        "method": "PUT",
+        "header": [ { "key": "Content-Type", "value": "application/json" }, { "key": "Authorization", "value": "Bearer {{token}}" } ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"statut\": \"terminee\"\n}"
+        },
+        "url": { "raw": "{{base_url}}/api/taches/{{tacheId}}", "host": [ "{{base_url}}" ], "path": [ "api", "taches", "{{tacheId}}" ] }
+      }
+    },
+    {
+      "name": "Supprimer une tâche",
+      "request": {
+        "method": "DELETE",
+        "url": { "raw": "{{base_url}}/api/taches/{{tacheId}}", "host": [ "{{base_url}}" ], "path": [ "api", "taches", "{{tacheId}}" ] }
+      }
+    },
+    {
+      "name": "Lister les tâches (pagination, filtres)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{base_url}}/api/taches?page=1&limit=3&priorite=haute&statut=en_cours",
+          "host": [ "{{base_url}}" ],
+          "path": [ "api", "taches" ],
+          "query": [
+            { "key": "page", "value": "1" },
+            { "key": "limit", "value": "10" },
+            { "key": "priorite", "value": "haute" },
+            { "key": "statut", "value": "en_cours" }
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "membreId", "value": "" },
+    { "key": "tacheId", "value": "" }
+  ]
+}
